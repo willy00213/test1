@@ -12,13 +12,14 @@
                 extend: {
                     colors: {
                         church: {
-                            50: '#f4f8f5',
-                            100: '#e3ece6',
-                            200: '#c8dacf',
+                            50: '#f0f5f2',
+                            100: '#e1ebe4',
+                            200: '#c5d8cb',
+                            300: '#9dbfba',
                             500: '#2e6f40', // 森林暖綠
-                            600: '#255933', 
+                            600: '#245932', 
                             700: '#1b4324',
-                            800: '#112a17',
+                            800: '#132d18',
                         },
                         accent: {
                             50: '#fffbeb',
@@ -27,8 +28,14 @@
                             600: '#b27d14',
                         }
                     },
+                    backgroundImage: {
+                        // 電影感光影漸層 + 幾何紋理
+                        'cinematic': 'radial-gradient(circle at 15% 50%, rgba(46, 111, 64, 0.08), transparent 25%), radial-gradient(circle at 85% 30%, rgba(217, 155, 38, 0.08), transparent 25%)',
+                        // 極簡箭頭/人字幾何紋理
+                        'geometric': 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%232e6f40\' fill-opacity=\'0.03\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
+                    },
                     boxShadow: {
-                        'premium': '0 4px 20px -2px rgba(27, 67, 36, 0.05), 0 2px 8px -1px rgba(27, 67, 36, 0.03)',
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
                     }
                 }
             }
@@ -36,171 +43,209 @@
     </script>
     <style>
         /* 隱藏滾動條但保持滾動 */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* 磨砂玻璃擬態樣式 (Glassmorphism) */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
         }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        
+        .glass-btn {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
         }
-        /* 漸變與平滑過渡 */
-        .transition-all {
-            transition-property: all;
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-            transition-duration: 200ms;
+
+        .glass-btn-active {
+            background: #2e6f40;
+            color: white;
+            box-shadow: 0 4px 15px rgba(46, 111, 64, 0.3);
+            border: 1px solid #2e6f40;
         }
-        /* 圓潤微陰影 */
-        .card-shadow {
-            box-shadow: 0 10px 30px -10px rgba(27, 67, 36, 0.08);
-        }
+
         /* 100% 瀏覽器安全之自訂動畫 Keyframes */
         @keyframes scaleUp {
             from { transform: scale(0.95); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
         }
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .animate-scaleUp {
-            animation: scaleUp 0.18s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-        .animate-fadeIn {
-            animation: fadeIn 0.25s ease-out forwards;
-        }
+        .animate-scaleUp { animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-fadeIn { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     </style>
 </head>
-<body class="bg-[#fafaf9] text-slate-800 font-sans min-h-screen pb-12 antialiased">
+<body class="bg-[#fafaf9] text-slate-800 font-sans min-h-screen pb-12 antialiased relative z-0">
+
+    <!-- 電影級幾何紋理與光暈背景 -->
+    <div class="fixed inset-0 z-[-1] bg-geometric pointer-events-none"></div>
+    <div class="fixed inset-0 z-[-1] bg-cinematic pointer-events-none"></div>
 
     <!-- 頂部導航/標題區 -->
-    <header class="bg-gradient-to-r from-church-700 via-church-800 to-emerald-950 text-white shadow-md sticky top-0 z-50 transition-all">
-        <div class="max-w-md mx-auto px-5 py-3.5 flex items-center justify-between">
-            <div class="flex items-center space-x-2.5">
-                <!-- 經典十字/愛心設計 SVG -->
-                <svg class="w-6 h-6 text-accent-500 fill-current" viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-4H7v-2h4V7h2v4h4v2h-4v4z"/>
-                </svg>
-                <span class="font-bold tracking-widest text-lg">恩光基督教會 💒</span>
+    <header class="bg-white/80 backdrop-blur-md border-b border-white/50 shadow-sm sticky top-0 z-50 transition-all">
+        <div class="max-w-md mx-auto px-5 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-church-500 to-church-700 flex items-center justify-center shadow-md">
+                    <svg class="w-4 h-4 text-white fill-current" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-4H7v-2h4V7h2v4h4v2h-4v4z"/>
+                    </svg>
+                </div>
+                <span class="font-bold tracking-widest text-lg text-church-800 drop-shadow-sm">恩光基督教會</span>
             </div>
-            <span class="bg-accent-500 text-church-800 text-xs font-black px-2.5 py-1 rounded-full shadow-sm animate-pulse tracking-wider">7/11 一日遊</span>
+            <span class="bg-accent-50 text-accent-600 text-sm font-bold px-3 py-1.5 rounded-full border border-accent-200 shadow-sm tracking-wide">7/11 一日遊</span>
         </div>
     </header>
 
     <!-- 主容器 -->
-    <main class="max-w-md mx-auto px-4 mt-4 space-y-5">
+    <main class="max-w-md mx-auto px-4 mt-6 space-y-6 relative">
 
-        <!-- 歡迎 & 倒數計時 Card -->
-        <div class="bg-white rounded-3xl p-6 card-shadow border border-church-100/40 relative overflow-hidden">
-            <div class="absolute -right-8 -bottom-8 opacity-5 text-church-500">
-                <svg class="w-32 h-32" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.53c-.26-.81-1-1.4-1.9-1.4h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
-                </svg>
-            </div>
-            <h1 class="text-2xl font-black text-church-800 tracking-tight mb-1">頭城農場 ‧ 喜樂同行 🌿</h1>
-            <p class="text-slate-400 text-sm mb-4 font-medium">出發日期：民國 115 年 7 月 11 日 (星期六)</p>
+        <!-- 歡迎 & 倒數計時 Card (Glassmorphism) -->
+        <div class="glass-card rounded-[2rem] p-7 relative overflow-hidden animate-fadeIn">
+            <!-- 裝飾性幾何形狀 -->
+            <div class="absolute -right-6 -top-6 w-32 h-32 rounded-full border-[1.5px] border-church-200/50"></div>
+            
+            <h1 class="text-2xl font-black text-slate-800 tracking-tight mb-2">頭城農場 ‧ 喜樂同行</h1>
+            <p class="text-slate-500 text-sm mb-6 font-medium flex items-center">
+                <svg class="w-4 h-4 mr-1.5 text-church-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                民國 115 年 7 月 11 日 (六)
+            </p>
             
             <!-- 倒數計時區 -->
-            <div class="bg-gradient-to-br from-church-50 to-emerald-50/40 rounded-2xl p-4 border border-church-100 flex justify-around items-center text-center">
-                <div>
-                    <span id="countdown-days" class="text-3xl font-black text-church-600 block">--</span>
-                    <span class="text-xs text-slate-500 font-bold tracking-wider">天</span>
+            <div class="bg-white/60 rounded-2xl p-4 border border-white/80 flex justify-between items-center text-center shadow-inner relative overflow-hidden">
+                <div class="flex-1 relative z-10">
+                    <span id="countdown-days" class="text-3xl font-black text-church-600 block drop-shadow-sm">--</span>
+                    <span class="text-[11px] text-slate-500 font-bold tracking-widest mt-1 block uppercase">天</span>
                 </div>
-                <div class="text-church-200 font-light text-xl">|</div>
-                <div>
-                    <span id="countdown-hours" class="text-3xl font-black text-church-600 block">--</span>
-                    <span class="text-xs text-slate-500 font-bold tracking-wider">時</span>
+                <div class="w-px h-8 bg-slate-200 mx-2 relative z-10"></div>
+                <div class="flex-1 relative z-10">
+                    <span id="countdown-hours" class="text-3xl font-black text-church-600 block drop-shadow-sm">--</span>
+                    <span class="text-[11px] text-slate-500 font-bold tracking-widest mt-1 block uppercase">時</span>
                 </div>
-                <div class="text-church-200 font-light text-xl">|</div>
-                <div>
-                    <span id="countdown-mins" class="text-3xl font-black text-church-600 block">--</span>
-                    <span class="text-xs text-slate-500 font-bold tracking-wider">分</span>
+                <div class="w-px h-8 bg-slate-200 mx-2 relative z-10"></div>
+                <div class="flex-1 relative z-10">
+                    <span id="countdown-mins" class="text-3xl font-black text-church-600 block drop-shadow-sm">--</span>
+                    <span class="text-[11px] text-slate-500 font-bold tracking-widest mt-1 block uppercase">分</span>
                 </div>
-                <div class="text-church-200 font-light text-xl">|</div>
-                <div>
-                    <span id="countdown-secs" class="text-3xl font-black text-accent-500 block">--</span>
-                    <span class="text-xs text-slate-500 font-bold tracking-wider">秒</span>
+                <div class="w-px h-8 bg-slate-200 mx-2 relative z-10"></div>
+                <div class="flex-1 relative z-10">
+                    <span id="countdown-secs" class="text-3xl font-black text-accent-500 block drop-shadow-sm">--</span>
+                    <span class="text-[11px] text-slate-500 font-bold tracking-widest mt-1 block uppercase">秒</span>
                 </div>
             </div>
         </div>
 
-        <!-- 車次、車長及車號資訊 Card -->
-        <div class="bg-white rounded-3xl p-6 card-shadow border border-church-100/40 relative overflow-hidden animate-fadeIn">
-            <div class="flex items-center space-x-2.5 mb-4 pb-3 border-b border-slate-100">
-                <span class="text-xl">🚌</span>
-                <div>
-                    <h2 class="text-lg font-black text-church-800">車次與車長配置</h2>
-                    <p class="text-xs text-slate-400 font-medium">請對照所屬車次，於出發前半小時抵達報到</p>
+        <!-- 視覺化行程導覽圖 Card -->
+        <div class="glass-card rounded-[2rem] p-5 relative overflow-hidden animate-fadeIn" style="animation-delay: 100ms;">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-slate-100/80 flex items-center justify-center border border-white shadow-sm">
+                        <span class="text-xl">🗺️</span>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-black text-slate-800 drop-shadow-sm">行程導覽地圖</h2>
+                        <p class="text-xs text-slate-500 font-medium mt-0.5">全日動線與活動總覽</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 導覽圖圖片區塊 -->
+            <div class="rounded-xl overflow-hidden border border-white/80 shadow-sm relative bg-white/50">
+                <img src="image_09ad2b.jpg" alt="恩光基督教會：頭城農場．喜樂同行一日遊手冊" class="w-full h-auto object-cover transition-transform duration-500 hover:scale-[1.02]">
+            </div>
+        </div>
+
+        <!-- 車次、車長及手機號碼資訊 Card -->
+        <div class="glass-card rounded-[2rem] p-7 relative overflow-hidden animate-fadeIn" style="animation-delay: 150ms;">
+            <div class="flex items-center justify-between mb-5">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-slate-100/80 flex items-center justify-center border border-white shadow-sm">
+                        <span class="text-xl">🚌</span>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-black text-slate-800 drop-shadow-sm">車次與人員配置</h2>
+                        <p class="text-xs text-slate-500 font-medium mt-0.5">請對照車次，提早半小時報到</p>
+                    </div>
                 </div>
             </div>
             
             <div class="space-y-4">
                 <!-- 1車 -->
-                <div class="bg-[#fcfdfd] rounded-2xl p-4 border border-slate-100 relative">
-                    <div class="flex justify-between items-center mb-3">
+                <div class="bg-white/60 rounded-2xl p-4 border border-white/80 shadow-sm">
+                    <div class="flex justify-between items-center mb-3 pb-3 border-b border-slate-100">
                         <span class="font-bold text-slate-800 text-base flex items-center">
-                            <span class="w-3 h-3 rounded-full bg-emerald-500 mr-2"></span>1 車 (直達車)
+                            <span class="w-3 h-3 rounded-full bg-emerald-500 mr-2.5 shadow-sm shadow-emerald-200"></span>1 車 (直達)
                         </span>
                         <span class="bg-emerald-50 text-emerald-700 text-xs font-bold px-3 py-1 rounded-full border border-emerald-100/50">08:00 發車</span>
                     </div>
-                    <div class="grid grid-cols-1 gap-3 text-sm text-slate-600 font-medium">
-                        <div class="flex items-center space-x-2">
-                            <span class="w-16">車牌號碼：</span>
+                    <div class="grid grid-cols-1 gap-3.5 text-sm text-slate-600 font-medium px-1">
+                        <div class="flex items-center">
+                            <span class="w-20 text-slate-500 text-xs tracking-wider">車牌號碼：</span>
                             <span class="flex-1 text-church-800 font-bold border-b border-dashed border-slate-300 pb-0.5 inline-block min-h-[1.5rem]"></span>
                         </div>
-                        <div class="flex items-center space-x-2">
-                            <span class="w-16">車長同工：</span>
+                        <div class="flex items-center">
+                            <span class="w-20 text-slate-500 text-xs tracking-wider">車長同工：</span>
                             <span class="flex-1 text-church-800 font-bold border-b border-dashed border-slate-300 pb-0.5 inline-block min-h-[1.5rem]"></span>
                         </div>
-                        <div class="flex items-center space-x-2">
-                            <span class="w-16">手機號碼：</span>
+                        <!-- 新增手機號碼欄位 -->
+                        <div class="flex items-center">
+                            <span class="w-20 text-slate-500 text-xs tracking-wider">手機號碼：</span>
                             <span class="flex-1 text-church-800 font-bold border-b border-dashed border-slate-300 pb-0.5 inline-block min-h-[1.5rem]"></span>
                         </div>
                     </div>
                 </div>
 
                 <!-- 2車 -->
-                <div class="bg-[#fcfdfd] rounded-2xl p-4 border border-slate-100 relative">
-                    <div class="flex justify-between items-center mb-3">
+                <div class="bg-white/60 rounded-2xl p-4 border border-white/80 shadow-sm">
+                    <div class="flex justify-between items-center mb-3 pb-3 border-b border-slate-100">
                         <span class="font-bold text-slate-800 text-base flex items-center">
-                            <span class="w-3 h-3 rounded-full bg-emerald-500 mr-2"></span>2 車 (直達車)
+                            <span class="w-3 h-3 rounded-full bg-emerald-500 mr-2.5 shadow-sm shadow-emerald-200"></span>2 車 (直達)
                         </span>
                         <span class="bg-emerald-50 text-emerald-700 text-xs font-bold px-3 py-1 rounded-full border border-emerald-100/50">08:00 發車</span>
                     </div>
-                    <div class="grid grid-cols-1 gap-3 text-sm text-slate-600 font-medium">
-                        <div class="flex items-center space-x-2">
-                            <span class="w-16">車牌號碼：</span>
+                    <div class="grid grid-cols-1 gap-3.5 text-sm text-slate-600 font-medium px-1">
+                        <div class="flex items-center">
+                            <span class="w-20 text-slate-500 text-xs tracking-wider">車牌號碼：</span>
                             <span class="flex-1 text-church-800 font-bold border-b border-dashed border-slate-300 pb-0.5 inline-block min-h-[1.5rem]"></span>
                         </div>
-                        <div class="flex items-center space-x-2">
-                            <span class="w-16">車長同工：</span>
+                        <div class="flex items-center">
+                            <span class="w-20 text-slate-500 text-xs tracking-wider">車長同工：</span>
                             <span class="flex-1 text-church-800 font-bold border-b border-dashed border-slate-300 pb-0.5 inline-block min-h-[1.5rem]"></span>
                         </div>
-                        <div class="flex items-center space-x-2">
-                            <span class="w-16">手機號碼：</span>
+                        <!-- 新增手機號碼欄位 -->
+                        <div class="flex items-center">
+                            <span class="w-20 text-slate-500 text-xs tracking-wider">手機號碼：</span>
                             <span class="flex-1 text-church-800 font-bold border-b border-dashed border-slate-300 pb-0.5 inline-block min-h-[1.5rem]"></span>
                         </div>
                     </div>
                 </div>
 
                 <!-- 3車 -->
-                <div class="bg-[#f9fbfd] rounded-2xl p-4 border border-blue-50/60 relative">
-                    <div class="flex justify-between items-center mb-3">
+                <div class="bg-blue-50/50 rounded-2xl p-4 border border-blue-100/50 shadow-sm">
+                    <div class="flex justify-between items-center mb-3 pb-3 border-b border-blue-100/50">
                         <span class="font-bold text-slate-800 text-base flex items-center">
-                            <span class="w-3 h-3 rounded-full bg-blue-500 mr-2"></span>3 車 (中停石碇)
+                            <span class="w-3 h-3 rounded-full bg-blue-500 mr-2.5 shadow-sm shadow-blue-200"></span>3 車 (中停石碇)
                         </span>
-                        <span class="bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1 rounded-full border border-blue-100/50">07:30 發車</span>
+                        <span class="bg-blue-100/60 text-blue-700 text-xs font-bold px-3 py-1 rounded-full border border-blue-200/50">07:30 發車</span>
                     </div>
-                    <div class="grid grid-cols-1 gap-3 text-sm text-slate-600 font-medium">
-                        <div class="flex items-center space-x-2">
-                            <span class="w-16">車牌號碼：</span>
+                    <div class="grid grid-cols-1 gap-3.5 text-sm text-slate-600 font-medium px-1">
+                        <div class="flex items-center">
+                            <span class="w-20 text-slate-500 text-xs tracking-wider">車牌號碼：</span>
                             <span class="flex-1 text-church-800 font-bold border-b border-dashed border-slate-300 pb-0.5 inline-block min-h-[1.5rem]"></span>
                         </div>
-                        <div class="flex items-center space-x-2">
-                            <span class="w-16">車長同工：</span>
-                            <span class="flex-1 text-church-800 font-extrabold border-b border-dashed border-church-500 pb-0.5 inline-block min-h-[1.5rem] pl-2">許滌</span>
+                        <div class="flex items-center">
+                            <span class="w-20 text-slate-500 text-xs tracking-wider">車長同工：</span>
+                            <span class="flex-1 text-church-800 font-black border-b border-dashed border-church-500 pb-0.5 inline-block min-h-[1.5rem]">許滌</span>
                         </div>
-                        <div class="flex items-center space-x-2">
-                            <span class="w-16">手機號碼：</span>
+                        <!-- 新增手機號碼欄位 -->
+                        <div class="flex items-center">
+                            <span class="w-20 text-slate-500 text-xs tracking-wider">手機號碼：</span>
                             <span class="flex-1 text-church-800 font-bold border-b border-dashed border-slate-300 pb-0.5 inline-block min-h-[1.5rem]"></span>
                         </div>
                     </div>
@@ -209,201 +254,258 @@
         </div>
 
         <!-- 互動式行程安排 Card -->
-        <div class="bg-white rounded-3xl p-6 card-shadow border border-church-100/40">
-            <div class="flex items-center justify-between mb-5 pb-3 border-b border-slate-100">
-                <h2 class="text-lg font-black text-church-800 flex items-center">
-                    <span class="mr-2 text-xl">📅</span> 行程時間軸
-                </h2>
-                <!-- 車次切換選單 -->
-                <div class="bg-slate-100 p-1 rounded-xl flex text-sm">
-                    <button onclick="switchBus('all')" id="tab-all" class="px-4 py-1.5 rounded-lg font-bold transition-all bg-white text-church-800 shadow-sm">
-                        全部
-                    </button>
-                    <button onclick="switchBus('12')" id="tab-12" class="px-4 py-1.5 rounded-lg font-medium transition-all text-slate-500">
-                        1、2車
-                    </button>
-                    <button onclick="switchBus('3')" id="tab-3" class="px-4 py-1.5 rounded-lg font-medium transition-all text-slate-500">
-                        3車
-                    </button>
+        <div class="glass-card rounded-[2rem] p-7 animate-fadeIn" style="animation-delay: 200ms;">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-slate-100/80 flex items-center justify-center border border-white shadow-sm">
+                        <span class="text-xl">📅</span>
+                    </div>
+                    <h2 class="text-lg font-black text-slate-800 drop-shadow-sm">行程時間軸</h2>
                 </div>
+            </div>
+            
+            <!-- 車次切換選單 -->
+            <div class="bg-white/60 p-1 rounded-xl flex text-sm mb-6 border border-white/80 shadow-inner">
+                <button onclick="switchBus('all')" id="tab-all" class="flex-1 glass-btn-active py-2.5 rounded-lg font-bold transition-all duration-300">全部</button>
+                <button onclick="switchBus('12')" id="tab-12" class="flex-1 glass-btn text-slate-500 py-2.5 rounded-lg font-medium transition-all duration-300 hover:text-slate-800">1、2車</button>
+                <button onclick="switchBus('3')" id="tab-3" class="flex-1 glass-btn text-slate-500 py-2.5 rounded-lg font-medium transition-all duration-300 hover:text-slate-800">3車</button>
             </div>
 
             <!-- 時間軸容器 -->
-            <div class="relative pl-7 border-l-2 border-slate-100 space-y-7 transition-all" id="timeline">
+            <div class="relative pl-7 border-l-2 border-slate-200 space-y-8 transition-all duration-300" id="timeline">
                 
                 <!-- 07:30 3車 -->
                 <div class="timeline-item bus-3 relative" data-bus="3">
-                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-blue-500 ring-4 ring-blue-50"></div>
-                    <span class="inline-block bg-blue-50 text-blue-600 text-xs font-bold px-2.5 py-1 rounded-full mb-1">3車專屬 (早鳥)</span>
-                    <div class="text-sm font-black text-slate-900">07:30 <span class="font-normal text-slate-500 ml-1">竹圍捷運站出發</span></div>
-                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">3車弟兄姊妹請於 07:20 前報到。中途將停靠石碇休息站盥洗與小憩。</p>
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-blue-500 shadow-sm"></div>
+                    <span class="inline-block bg-blue-50 text-blue-600 text-xs font-bold px-2.5 py-1 rounded-full mb-1.5 border border-blue-100/50">3車專屬 (早鳥)</span>
+                    <div class="text-base font-black text-slate-800">07:30 <span class="font-medium text-slate-500 ml-1.5 text-sm">竹圍捷運站出發</span></div>
+                    <p class="text-slate-600 text-sm mt-1.5 leading-relaxed font-medium">3車弟兄姊妹請於 07:20 前報到。中途將停靠石碇休息站盥洗與小憩。</p>
                 </div>
 
                 <!-- 08:00 12車 -->
                 <div class="timeline-item bus-12 relative" data-bus="12">
-                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-emerald-500 ring-4 ring-emerald-50"></div>
-                    <span class="inline-block bg-emerald-50 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full mb-1">1、2車專屬</span>
-                    <div class="text-sm font-black text-slate-900">08:00 <span class="font-normal text-slate-500 ml-1">竹圍捷運站出發</span></div>
-                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">1、2車弟兄姊妹請於 07:50 前報到。本車次為直達頭城農場。</p>
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-emerald-500 shadow-sm"></div>
+                    <span class="inline-block bg-emerald-50 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full mb-1.5 border border-emerald-100/50">1、2車專屬</span>
+                    <div class="text-base font-black text-slate-800">08:00 <span class="font-medium text-slate-500 ml-1.5 text-sm">竹圍捷運站出發</span></div>
+                    <p class="text-slate-600 text-sm mt-1.5 leading-relaxed font-medium">1、2車弟兄姊妹請於 07:50 前報到。本車次為直達頭城農場。</p>
                 </div>
 
                 <!-- 09:30 全體會合 -->
                 <div class="timeline-item bus-all relative" data-bus="all">
-                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-accent-500 ring-4 ring-amber-50"></div>
-                    <div class="text-sm font-black text-slate-900">09:30 - 10:00 <span class="font-normal text-slate-500 ml-1">全體會合與休息時間 🍡</span></div>
-                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">三台車會師！引導全體上洗手間、清點人數與集合準備拍照。</p>
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-accent-500 shadow-sm"></div>
+                    <div class="text-base font-black text-slate-800">09:30 - 10:00 <span class="font-medium text-slate-500 ml-1.5 text-sm">全體會合與點心時間 🍡</span></div>
+                    <p class="text-slate-600 text-sm mt-1.5 leading-relaxed font-medium">三台車會師！引導全體上洗手間、清點人數與集合，並共同享用迎賓點心（仙草冰、綠豆湯、米粉湯等）。</p>
                 </div>
 
                 <!-- 10:00 戶外大合照 -->
                 <div class="timeline-item bus-all relative" data-bus="all">
-                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-accent-500 ring-4 ring-amber-50"></div>
-                    <div class="text-sm font-black text-slate-900">10:00 - 10:15 <span class="font-normal text-slate-500 ml-1">全體戶外大合照 📸</span></div>
-                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">【全體聚會正式開始】趁著精神與妝容最佳狀態，於戶外美景拍下大合照！</p>
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-accent-500 shadow-sm"></div>
+                    <div class="text-base font-black text-slate-800">10:00 - 10:15 <span class="font-medium text-slate-500 ml-1.5 text-sm">全體戶外大合照 📸</span></div>
+                    <p class="text-slate-600 text-sm mt-1.5 leading-relaxed font-medium">【全體聚會正式開始】趁著精神與儀容最佳狀態，於戶外美景拍下大合照！</p>
                 </div>
 
                 <!-- 10:15 移動就座 -->
                 <div class="timeline-item bus-all relative" data-bus="all">
-                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-slate-400 ring-4 ring-slate-50"></div>
-                    <div class="text-sm font-black text-slate-900">10:15 - 10:20 <span class="font-normal text-slate-500 ml-1">移動就座與預備心</span></div>
-                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">有序進入會議室就座，沉靜思緒、安靜心靈，預備進入聚會。</p>
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-slate-400 shadow-sm"></div>
+                    <div class="text-base font-black text-slate-800">10:15 - 10:20 <span class="font-medium text-slate-500 ml-1.5 text-sm">移動就座與預備心</span></div>
+                    <p class="text-slate-600 text-sm mt-1.5 leading-relaxed font-medium">有序進入會議室就座，沉靜思緒、安靜心靈，預備進入聚會。</p>
                 </div>
 
                 <!-- 10:20 破冰九宮格 -->
-                <div class="timeline-item bus-all relative bg-amber-50/50 p-4 rounded-2xl border border-amber-100" data-bus="all">
-                    <div class="absolute -left-[35px] top-4.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-accent-500 ring-4 ring-amber-100"></div>
-                    <div class="text-sm font-black text-accent-700">10:20 - 10:35 <span class="font-bold text-accent-600 ml-1">破冰遊戲：九宮格賓果 🎯</span></div>
-                    <p class="text-slate-600 text-xs mt-1.5 leading-relaxed font-medium">姝雯主持！互動時間！</p>
+                <div class="timeline-item bus-all relative bg-amber-50/60 p-4 rounded-2xl border border-amber-100" data-bus="all">
+                    <div class="absolute -left-[35px] top-5 w-3.5 h-3.5 rounded-full border-2 border-white bg-accent-500 shadow-sm"></div>
+                    <div class="text-base font-black text-accent-600">10:20 - 10:35 <span class="font-bold text-accent-500 ml-1.5 text-sm">破冰遊戲：九宮格賓果 🎯</span></div>
+                    <p class="text-slate-700 text-sm mt-2 leading-relaxed font-bold">互動時間！請利用下方「數位九宮格」尋找特徵相符的肢體，直接在手機點選輸入名字連線！</p>
                 </div>
 
                 <!-- 10:35 詩歌敬拜 -->
                 <div class="timeline-item bus-all relative" data-bus="all">
-                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-accent-500 ring-4 ring-amber-50"></div>
-                    <div class="text-sm font-black text-slate-900">10:35 - 10:50 <span class="font-normal text-slate-500 ml-1">詩歌讚美 🎵</span></div>
-                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">敬拜團準備，安排兩首大能的詩歌，帶領大家開口敬拜讚美，將主權歸與神。</p>
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-accent-500 shadow-sm"></div>
+                    <div class="text-base font-black text-slate-800">10:35 - 10:50 <span class="font-medium text-slate-500 ml-1.5 text-sm">詩歌讚美 🎵</span></div>
+                    <p class="text-slate-600 text-sm mt-1.5 leading-relaxed font-medium">安排兩首大能的詩歌，帶領大家開口敬拜讚美，將主權歸與神。</p>
                 </div>
 
                 <!-- 10:50 見證分享 -->
                 <div class="timeline-item bus-all relative" data-bus="all">
-                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-accent-500 ring-4 ring-amber-50"></div>
-                    <div class="text-sm font-black text-slate-900">10:50 - 11:05 <span class="font-normal text-slate-500 ml-1">主內見證分享 🕊️</span></div>
-                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">聆聽肢體在生活、工作、家庭中實踐信仰，經歷神奇妙恩典的生命印記。</p>
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-accent-500 shadow-sm"></div>
+                    <div class="text-base font-black text-slate-800">10:50 - 11:05 <span class="font-medium text-slate-500 ml-1.5 text-sm">主內見證分享 🕊️</span></div>
+                    <p class="text-slate-600 text-sm mt-1.5 leading-relaxed font-medium">聆聽肢體在生活、工作、家庭中實踐信仰，經歷神奇妙恩典的生命印記。</p>
                 </div>
 
                 <!-- 11:05 精華證道 -->
                 <div class="timeline-item bus-all relative" data-bus="all">
-                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-accent-500 ring-4 ring-amber-50"></div>
-                    <div class="text-sm font-black text-slate-900">11:05 - 11:20 <span class="font-normal text-slate-500 ml-1">精華信息證道 📖</span></div>
-                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">亞鳴牧師帶來主題信息證道，專注核心真理的釋放與實踐。</p>
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-accent-500 shadow-sm"></div>
+                    <div class="text-base font-black text-slate-800">11:05 - 11:20 <span class="font-medium text-slate-500 ml-1.5 text-sm">精華信息證道 📖</span></div>
+                    <p class="text-slate-600 text-sm mt-1.5 leading-relaxed font-medium">牧者/講員帶來 15 分鐘主題信息證道，專注核心真理的釋放與實踐。</p>
                 </div>
 
                 <!-- 11:20 回應祝福 -->
                 <div class="timeline-item bus-all relative" data-bus="all">
-                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-accent-500 ring-4 ring-amber-50"></div>
-                    <div class="text-sm font-black text-slate-900">11:20 - 11:30 <span class="font-normal text-slate-500 ml-1">回應禱告與祝禱 🙏</span></div>
-                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">全體同心合意禱告，並由牧者做結束祝禱，為豐盛的聚會圓滿落幕。</p>
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-accent-500 shadow-sm"></div>
+                    <div class="text-base font-black text-slate-800">11:20 - 11:30 <span class="font-medium text-slate-500 ml-1.5 text-sm">回應禱告與祝禱 🙏</span></div>
+                    <p class="text-slate-600 text-sm mt-1.5 leading-relaxed font-medium">全體同心合意禱告，並由牧者做結束祝禱，為豐盛的聚會圓滿落幕。</p>
                 </div>
 
                 <!-- 11:30 自助午餐 -->
-                <div class="timeline-item bus-all relative bg-emerald-50/50 p-4 rounded-2xl border border-emerald-100" data-bus="all">
-                    <div class="absolute -left-[35px] top-4.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-emerald-500 ring-4 ring-emerald-100"></div>
-                    <div class="text-sm font-black text-emerald-800">11:30 - 13:00 <span class="font-bold text-emerald-700 ml-1">享用鄉土料理 🍱</span></div>
-                    <p class="text-slate-700 text-xs mt-1.5 leading-relaxed font-medium">在餐廳共同享用豐盛健康的自助式中式午餐（提早用餐，享受愜意時光）。</p>
+                <div class="timeline-item bus-all relative bg-emerald-50/60 p-4 rounded-2xl border border-emerald-100" data-bus="all">
+                    <div class="absolute -left-[35px] top-5 w-3.5 h-3.5 rounded-full border-2 border-white bg-emerald-500 shadow-sm"></div>
+                    <div class="text-base font-black text-emerald-800">11:30 - 13:00 <span class="font-bold text-emerald-600 ml-1.5 text-sm">享用鄉土料理 🍱</span></div>
+                    <p class="text-slate-700 text-sm mt-2 leading-relaxed font-bold">在農場餐廳共同享用豐盛健康的自助式中式午餐（提早用餐，享受愜意時光）。</p>
                 </div>
 
                 <!-- 13:00 生態導覽 -->
                 <div class="timeline-item bus-all relative" data-bus="all">
-                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-emerald-500 ring-4 ring-emerald-50"></div>
-                    <div class="text-sm font-black text-slate-900">13:00 - 14:00 <span class="font-normal text-slate-500 ml-1">園區生態導覽 🐢</span></div>
-                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">專業解說員帶隊：可愛動物區、農村運動場、認識有機菜園、水稻區導覽。</p>
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-emerald-500 shadow-sm"></div>
+                    <div class="text-base font-black text-slate-800">13:00 - 14:00 <span class="font-medium text-slate-500 ml-1.5 text-sm">園區生態導覽 🐢</span></div>
+                    <p class="text-slate-600 text-sm mt-1.5 leading-relaxed font-medium">專業解說員帶隊：可愛動物區、農村運動場、認識有機菜園、水稻區導覽。</p>
                 </div>
 
                 <!-- 14:00 盆栽 DIY -->
                 <div class="timeline-item bus-all relative" data-bus="all">
-                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-emerald-500 ring-4 ring-emerald-50"></div>
-                    <div class="text-sm font-black text-slate-900">14:00 - 15:00 <span class="font-normal text-slate-500 ml-1">希望盆栽 DIY 🌱</span></div>
-                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">親手組合製作充滿生氣的小盆栽，成品附帶盆器，可以直接帶回家照顧。</p>
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-emerald-500 shadow-sm"></div>
+                    <div class="text-base font-black text-slate-800">14:00 - 15:00 <span class="font-medium text-slate-500 ml-1.5 text-sm">希望盆栽 DIY 🌱</span></div>
+                    <p class="text-slate-600 text-sm mt-1.5 leading-relaxed font-medium">親手組合製作充滿生氣的小盆栽，成品附帶盆器，可以直接帶回家照顧。</p>
                 </div>
 
                 <!-- 15:00 湖岸物語 -->
                 <div class="timeline-item bus-all relative" data-bus="all">
-                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-emerald-500 ring-4 ring-emerald-50"></div>
-                    <div class="text-sm font-black text-slate-900">15:00 - 15:30 <span class="font-normal text-slate-500 ml-1">湖岸物語 (餵魚/大泡泡) 🫧</span></div>
-                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">浪漫湖畔漫步、七彩無敵大泡泡、湖邊餵魚、呼拉圈等放鬆小活動。</p>
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-emerald-500 shadow-sm"></div>
+                    <div class="text-base font-black text-slate-800">15:00 - 15:30 <span class="font-medium text-slate-500 ml-1.5 text-sm">湖岸物語 (餵魚/泡泡) 🫧</span></div>
+                    <p class="text-slate-600 text-sm mt-1.5 leading-relaxed font-medium">浪漫湖畔漫步、七彩無敵大泡泡、湖邊餵魚、呼拉圈等放鬆小活動。</p>
                 </div>
 
                 <!-- 15:30 3車回程 -->
                 <div class="timeline-item bus-3 relative" data-bus="3">
-                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-blue-500 ring-4 ring-blue-50"></div>
-                    <span class="inline-block bg-blue-50 text-blue-600 text-xs font-bold px-2.5 py-1 rounded-full mb-1">3車專屬</span>
-                    <div class="text-sm font-black text-slate-900">15:30 <span class="font-normal text-slate-500 ml-1">3車啟程返航 🚌</span></div>
-                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">3車提早半小時發車（中途停靠石碇休息站）。3車車長於 15:20 引導集合。</p>
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-blue-500 shadow-sm"></div>
+                    <span class="inline-block bg-blue-50 text-blue-600 text-xs font-bold px-2.5 py-1 rounded-full mb-1.5 border border-blue-100/50">3車專屬</span>
+                    <div class="text-base font-black text-slate-800">15:30 <span class="font-medium text-slate-500 ml-1.5 text-sm">3車啟程返航 🚌</span></div>
+                    <p class="text-slate-600 text-sm mt-1.5 leading-relaxed font-medium">3車提早半小時發車（中途停靠石碇休息站）。3車車長於 15:20 引導集合。</p>
                 </div>
 
                 <!-- 16:00 12車回程 -->
                 <div class="timeline-item bus-12 relative" data-bus="12">
-                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-emerald-500 ring-4 ring-emerald-50"></div>
-                    <span class="inline-block bg-emerald-50 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full mb-1">1、2車專屬</span>
-                    <div class="text-sm font-black text-slate-900">16:00 <span class="font-normal text-slate-500 ml-1">1、2車啟程返航 🚌</span></div>
-                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">1、2車整隊並準時出發直達台北溫暖的家。</p>
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-emerald-500 shadow-sm"></div>
+                    <span class="inline-block bg-emerald-50 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full mb-1.5 border border-emerald-100/50">1、2車專屬</span>
+                    <div class="text-base font-black text-slate-800">16:00 <span class="font-medium text-slate-500 ml-1.5 text-sm">1、2車啟程返航 🚌</span></div>
+                    <p class="text-slate-600 text-sm mt-1.5 leading-relaxed font-medium">1、2車整隊並準時出發直達台北溫暖的家。</p>
                 </div>
 
                 <!-- 17:30 平安抵達 -->
                 <div class="timeline-item bus-all relative" data-bus="all">
-                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-slate-500 ring-4 ring-slate-50"></div>
-                    <div class="text-sm font-black text-slate-900">17:30 左右 <span class="font-normal text-slate-500 ml-1">平安抵達竹圍 🏠</span></div>
-                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">帶著滿載的靈命與喜樂返回竹圍，願神保守每一位肢體出入平安！</p>
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-slate-500 shadow-sm"></div>
+                    <div class="text-base font-black text-slate-800">17:30 左右 <span class="font-medium text-slate-500 ml-1.5 text-sm">平安抵達竹圍 🏠</span></div>
+                    <p class="text-slate-600 text-sm mt-1.5 leading-relaxed font-medium">帶著滿載的靈命與喜樂返回竹圍，願神保守每一位肢體出入平安！</p>
                 </div>
 
             </div>
         </div>
+
+        <!-- 破冰互動：數位九宮格 -->
+        <div class="glass-card rounded-[2rem] p-7 animate-fadeIn" style="animation-delay: 250ms;" id="bingo-section">
+            <h2 class="text-lg font-black text-church-800 flex items-center mb-1.5">
+                <span class="mr-2 text-xl">🎯</span> 破冰特質大搜查
+            </h2>
+            <p class="text-sm text-slate-500 font-medium mb-6">點擊方格輸入符合特徵的弟兄姊妹名字，集滿連線大喊哈利路亞！</p>
+
+            <!-- 3x3 網格 -->
+            <div class="grid grid-cols-3 gap-3">
+                <div onclick="openBingoModal(0)" id="cell-0" class="aspect-square bg-white/70 border border-white rounded-2xl p-2.5 flex flex-col justify-between items-center text-center cursor-pointer hover:bg-white/90 active:scale-95 transition-all shadow-sm">
+                    <span class="text-xs text-slate-600 font-bold leading-normal my-auto">穿運動鞋<br>或布鞋</span>
+                    <span class="text-[13px] text-church-700 font-black hidden bg-white shadow-sm px-2 py-1 rounded-full border border-church-100/50 w-full truncate" id="name-0"></span>
+                </div>
+                <div onclick="openBingoModal(1)" id="cell-1" class="aspect-square bg-white/70 border border-white rounded-2xl p-2.5 flex flex-col justify-between items-center text-center cursor-pointer hover:bg-white/90 active:scale-95 transition-all shadow-sm">
+                    <span class="text-xs text-slate-600 font-bold leading-normal my-auto">早上 6:30前<br>提早起床</span>
+                    <span class="text-[13px] text-church-700 font-black hidden bg-white shadow-sm px-2 py-1 rounded-full border border-church-100/50 w-full truncate" id="name-1"></span>
+                </div>
+                <div onclick="openBingoModal(2)" id="cell-2" class="aspect-square bg-white/70 border border-white rounded-2xl p-2.5 flex flex-col justify-between items-center text-center cursor-pointer hover:bg-white/90 active:scale-95 transition-all shadow-sm">
+                    <span class="text-xs text-slate-600 font-bold leading-normal my-auto">攜帶實體<br>紙本聖經</span>
+                    <span class="text-[13px] text-church-700 font-black hidden bg-white shadow-sm px-2 py-1 rounded-full border border-church-100/50 w-full truncate" id="name-2"></span>
+                </div>
+
+                <div onclick="openBingoModal(3)" id="cell-3" class="aspect-square bg-white/70 border border-white rounded-2xl p-2.5 flex flex-col justify-between items-center text-center cursor-pointer hover:bg-white/90 active:scale-95 transition-all shadow-sm">
+                    <span class="text-xs text-slate-600 font-bold leading-normal my-auto">姓名裡有<br>「木」或「艸」</span>
+                    <span class="text-[13px] text-church-700 font-black hidden bg-white shadow-sm px-2 py-1 rounded-full border border-church-100/50 w-full truncate" id="name-3"></span>
+                </div>
+                <!-- 願神祝福 (Center) -->
+                <div onclick="fillCenterCell()" id="cell-4" class="aspect-square bg-gradient-to-br from-accent-400 to-accent-600 text-white rounded-2xl p-2.5 flex flex-col justify-center items-center text-center cursor-pointer active:scale-95 transition-all shadow-md border border-accent-300">
+                    <span class="text-sm font-black tracking-wide drop-shadow-md">恩典<br>滿滿 ✨</span>
+                    <span class="text-xs font-black opacity-90 mt-1" id="name-4">已得恩典</span>
+                </div>
+                <div onclick="openBingoModal(5)" id="cell-5" class="aspect-square bg-white/70 border border-white rounded-2xl p-2.5 flex flex-col justify-between items-center text-center cursor-pointer hover:bg-white/90 active:scale-95 transition-all shadow-sm">
+                    <span class="text-xs text-slate-600 font-bold leading-normal my-auto">手機電量<br>在 80% 以上</span>
+                    <span class="text-[13px] text-church-700 font-black hidden bg-white shadow-sm px-2 py-1 rounded-full border border-church-100/50 w-full truncate" id="name-5"></span>
+                </div>
+
+                <div onclick="openBingoModal(6)" id="cell-6" class="aspect-square bg-white/70 border border-white rounded-2xl p-2.5 flex flex-col justify-between items-center text-center cursor-pointer hover:bg-white/90 active:scale-95 transition-all shadow-sm">
+                    <span class="text-xs text-slate-600 font-bold leading-normal my-auto">有攜帶<br>防蚊液/防曬</span>
+                    <span class="text-[13px] text-church-700 font-black hidden bg-white shadow-sm px-2 py-1 rounded-full border border-church-100/50 w-full truncate" id="name-6"></span>
+                </div>
+                <div onclick="openBingoModal(7)" id="cell-7" class="aspect-square bg-white/70 border border-white rounded-2xl p-2.5 flex flex-col justify-between items-center text-center cursor-pointer hover:bg-white/90 active:scale-95 transition-all shadow-sm">
+                    <span class="text-xs text-slate-600 font-bold leading-normal my-auto">能背出約翰福音<br>三章十六節</span>
+                    <span class="text-[13px] text-church-700 font-black hidden bg-white shadow-sm px-2 py-1 rounded-full border border-church-100/50 w-full truncate" id="name-7"></span>
+                </div>
+                <div onclick="openBingoModal(8)" id="cell-8" class="aspect-square bg-white/70 border border-white rounded-2xl p-2.5 flex flex-col justify-between items-center text-center cursor-pointer hover:bg-white/90 active:scale-95 transition-all shadow-sm">
+                    <span class="text-xs text-slate-600 font-bold leading-normal my-auto">與你搭乘<br>「不同車次」</span>
+                    <span class="text-[13px] text-church-700 font-black hidden bg-white shadow-sm px-2 py-1 rounded-full border border-church-100/50 w-full truncate" id="name-8"></span>
+                </div>
+            </div>
+
+            <!-- 清除九宮格進度 -->
+            <div class="mt-5 flex justify-end">
+                <button onclick="resetBingo()" class="text-sm text-slate-400 hover:text-rose-500 flex items-center transition-all font-bold px-3 py-1.5 rounded-lg hover:bg-rose-50">
+                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    清除重來
+                </button>
+            </div>
+        </div>
+
         <!-- 行前必備行李打包清單 Card -->
-        <div class="bg-white rounded-3xl p-6 card-shadow border border-church-100/40">
-            <h2 class="text-lg font-black text-church-800 flex items-center mb-1">
+        <div class="glass-card rounded-[2rem] p-7 animate-fadeIn" style="animation-delay: 300ms;">
+            <h2 class="text-lg font-black text-church-800 flex items-center mb-1.5">
                 <span class="mr-2 text-xl">🎒</span> 行前打包清單
             </h2>
-            <p class="text-sm text-slate-500 font-medium mb-4">隨手點擊方框勾選，整理行李不出錯！</p>
+            <p class="text-sm text-slate-500 font-medium mb-5">隨手點擊方框勾選，整理行李不出錯！</p>
             <div class="space-y-3" id="checklist">
-                <!-- Checklist Items -->
-                <label class="flex items-center space-x-3 p-3.5 rounded-2xl border border-slate-100/80 hover:bg-slate-50 transition-all cursor-pointer">
+                <label class="flex items-center space-x-3.5 p-3.5 rounded-2xl bg-white/50 border border-white hover:bg-white/80 transition-all cursor-pointer shadow-sm">
                     <input type="checkbox" onchange="toggleCheck(this)" class="w-5 h-5 rounded text-church-600 focus:ring-church-500 border-slate-300">
                     <span class="text-sm text-slate-700 font-bold">個人隨身聖經 📖</span>
                 </label>
-                <label class="flex items-center space-x-3 p-3.5 rounded-2xl border border-slate-100/80 hover:bg-slate-50 transition-all cursor-pointer">
+                <label class="flex items-center space-x-3.5 p-3.5 rounded-2xl bg-white/50 border border-white hover:bg-white/80 transition-all cursor-pointer shadow-sm">
                     <input type="checkbox" onchange="toggleCheck(this)" class="w-5 h-5 rounded text-church-600 focus:ring-church-500 border-slate-300">
-                    <span class="text-sm text-slate-700 font-bold">遮陽防曬用具或摺疊傘、輕便雨衣☂️</span>
+                    <span class="text-sm text-slate-700 font-bold">輕便雨衣或摺疊傘（宜蘭必備）☂️</span>
                 </label>
-                <label class="flex items-center space-x-3 p-3.5 rounded-2xl border border-slate-100/80 hover:bg-slate-50 transition-all cursor-pointer">
+                <label class="flex items-center space-x-3.5 p-3.5 rounded-2xl bg-white/50 border border-white hover:bg-white/80 transition-all cursor-pointer shadow-sm">
                     <input type="checkbox" onchange="toggleCheck(this)" class="w-5 h-5 rounded text-church-600 focus:ring-church-500 border-slate-300">
                     <span class="text-sm text-slate-700 font-bold">防蚊液或香茅液（農場自然環境豐富）🦟</span>
                 </label>
-                <label class="flex items-center space-x-3 p-3.5 rounded-2xl border border-slate-100/80 hover:bg-slate-50 transition-all cursor-pointer">
+                <label class="flex items-center space-x-3.5 p-3.5 rounded-2xl bg-white/50 border border-white hover:bg-white/80 transition-all cursor-pointer shadow-sm">
                     <input type="checkbox" onchange="toggleCheck(this)" class="w-5 h-5 rounded text-church-600 focus:ring-church-500 border-slate-300">
-                    <span class="text-sm text-slate-700 font-bold">個人常用藥品與隨身環保保溫瓶 💊</span>
+                    <span class="text-sm text-slate-700 font-bold">個人常用藥品與隨身保溫瓶 💊</span>
                 </label>
-                <label class="flex items-center space-x-3 p-3.5 rounded-2xl border border-slate-100/80 hover:bg-slate-50 transition-all cursor-pointer">
+                <label class="flex items-center space-x-3.5 p-3.5 rounded-2xl bg-white/50 border border-white hover:bg-white/80 transition-all cursor-pointer shadow-sm">
                     <input type="checkbox" onchange="toggleCheck(this)" class="w-5 h-5 rounded text-church-600 focus:ring-church-500 border-slate-300">
-                    <span class="text-sm text-slate-700 font-bold">預備敞開喜樂的心與溫慢微笑 😊</span>
+                    <span class="text-sm text-slate-700 font-bold">敞開喜樂的心與溫暖微笑 😊</span>
                 </label>
             </div>
         </div>
 
     </main>
 
-    <!-- 底部資訊 & 著作權 -->
-    <footer class="max-w-md mx-auto text-center px-4 mt-8 pb-6">
-        <p class="text-xs text-slate-400 font-bold leading-relaxed tracking-wider">
+    <!-- 底部資訊 -->
+    <footer class="max-w-md mx-auto text-center px-4 mt-10 pb-6">
+        <p class="text-[13px] text-slate-500 font-bold leading-relaxed tracking-widest">
             主內一家 ‧ 同行天路 🗺️<br>
             恩光基督教會 敬製 © 民國115年/2026年 
         </p>
     </footer>
 
     <!-- 全螢幕互動式 BINGO Modal -->
-    <div id="bingo-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden transition-all">
-        <div class="bg-white rounded-3xl max-w-xs w-full p-6 shadow-2xl border border-church-100/50 animate-scaleUp transform">
-            <h3 class="text-[11px] font-black text-church-500 tracking-widest mb-1 uppercase" id="modal-cell-title">簽名登錄</h3>
-            <p class="text-base font-black text-slate-800 mb-5" id="modal-cell-desc">請輸入名字</p>
+    <div id="bingo-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden transition-all">
+        <div class="bg-white/95 backdrop-blur-xl rounded-[2rem] max-w-xs w-full p-8 shadow-2xl border border-white animate-scaleUp transform">
+            <h3 class="text-xs font-black text-church-500 tracking-widest mb-1.5 uppercase" id="modal-cell-title">簽名登錄</h3>
+            <p class="text-lg font-black text-slate-800 mb-6" id="modal-cell-desc">請輸入名字</p>
             
-            <input type="text" id="sign-name-input" placeholder="請輸入對方的姓名..." class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200/80 rounded-2xl focus:outline-none focus:ring-2 focus:ring-church-500 focus:border-transparent text-sm font-bold mb-5">
+            <input type="text" id="sign-name-input" placeholder="請輸入對方的姓名..." class="w-full px-5 py-3.5 bg-slate-50 border border-slate-200/80 rounded-2xl focus:outline-none focus:ring-2 focus:ring-church-500 text-sm font-bold mb-6 shadow-inner">
             
             <div class="flex space-x-3">
                 <button onclick="closeBingoModal()" class="flex-1 py-3 rounded-2xl text-sm font-black text-slate-500 bg-slate-100 hover:bg-slate-200 transition-all">
@@ -417,16 +519,17 @@
     </div>
 
     <!-- 自訂 Toast 提示 -->
-    <div id="toast-container" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 max-w-xs w-full px-4 hidden">
-        <div id="toast-content" class="bg-slate-900/95 text-white text-xs font-bold py-3.5 px-5 rounded-2xl shadow-xl flex items-center justify-between backdrop-blur-sm">
-            <span id="toast-message">提示訊息</span>
-            <span class="text-accent-500 ml-3 text-sm">✨</span>
+    <div id="toast-container" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[60] max-w-xs w-full px-4 hidden">
+        <div id="toast-content" class="bg-slate-900/90 text-white text-sm font-bold py-3.5 px-5 rounded-2xl shadow-2xl flex items-center justify-between backdrop-blur-lg border border-slate-700/50">
+            <span id="toast-message" class="tracking-wide">提示訊息</span>
+            <span class="text-accent-500 ml-3 text-lg drop-shadow-md">✨</span>
         </div>
     </div>
 
     <!-- JS 邏輯處理 -->
     <script>
-        // 目標日期設定：民國 115 年 7 月 11 日 08:00 AM (西元 2026 年 7 月 11 日)
+        // 目標日期設定：民國 115 年 7 月 11 日 08:00 AM
+        // 採用跨瀏覽器、100% 安全無誤的原生數值建構
         const targetDate = new Date(2026, 6, 11, 8, 0, 0).getTime(); 
 
         // 1. 倒數計時計數器
@@ -461,9 +564,9 @@
             tabs.forEach(tab => {
                 const btn = document.getElementById(`tab-${tab}`);
                 if (tab === busType) {
-                    btn.className = "px-4 py-1.5 rounded-lg font-bold transition-all bg-white text-church-800 shadow-sm";
+                    btn.className = "flex-1 glass-btn-active py-2.5 rounded-lg font-bold transition-all duration-300";
                 } else {
-                    btn.className = "px-4 py-1.5 rounded-lg font-medium transition-all text-slate-500";
+                    btn.className = "flex-1 glass-btn text-slate-500 py-2.5 rounded-lg font-medium transition-all duration-300 hover:text-slate-800";
                 }
             });
 
@@ -489,7 +592,97 @@
             showToast(`已切換至 ${busType === 'all' ? '全體行程' : busType === '12' ? '1、2車行程' : '3車行程'}`);
         }
 
-        
+        // 3. 數位九宮格邏輯
+        let currentEditingCell = null;
+        const cellData = {
+            0: { desc: "今天穿著運動鞋或布鞋的人", name: "" },
+            1: { desc: "今天早上 6:30 前即起床準備出發的人", name: "" },
+            2: { desc: "隨身攜帶實體紙本聖經的同工/肢體", name: "" },
+            3: { desc: "中文姓名裡面有「木」或「艸」部首的人", name: "" },
+            4: { desc: "恩典必得一格", name: "已得恩典" }, // Center Cell
+            5: { desc: "手機目前電量在 80% 以上的人", name: "" },
+            6: { desc: "今天背包有帶防蚊液或防曬乳的人", name: "" },
+            7: { desc: "能當場背出「約翰福音三章十六節」的人", name: "" },
+            8: { desc: "與你今天搭乘「不同車次」的弟兄姊妹", name: "" },
+        };
+
+        function openBingoModal(index) {
+            currentEditingCell = index;
+            const data = cellData[index];
+            document.getElementById('modal-cell-title').innerText = `特徵大搜查 #${index + 1}`;
+            document.getElementById('modal-cell-desc').innerText = data.desc;
+            document.getElementById('sign-name-input').value = data.name;
+            
+            const modal = document.getElementById('bingo-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('sign-name-input').focus();
+            }, 100);
+        }
+
+        function closeBingoModal() {
+            document.getElementById('bingo-modal').classList.add('hidden');
+            currentEditingCell = null;
+        }
+
+        function saveBingoCell() {
+            if (currentEditingCell === null) return;
+            const inputVal = document.getElementById('sign-name-input').value.trim();
+            const cell = document.getElementById(`cell-${currentEditingCell}`);
+            const nameSpan = document.getElementById(`name-${currentEditingCell}`);
+            
+            cellData[currentEditingCell].name = inputVal;
+
+            if (inputVal !== "") {
+                nameSpan.innerText = inputVal;
+                nameSpan.classList.remove('hidden');
+                cell.className = "aspect-square bg-church-50 border-2 border-church-400 rounded-2xl p-2.5 flex flex-col justify-between items-center text-center cursor-pointer active:scale-95 transition-all shadow-md ring-4 ring-church-500/10";
+            } else {
+                nameSpan.innerText = "";
+                nameSpan.classList.add('hidden');
+                cell.className = "aspect-square bg-white/70 border border-white rounded-2xl p-2.5 flex flex-col justify-between items-center text-center cursor-pointer hover:bg-white/90 active:scale-95 transition-all shadow-sm";
+            }
+
+            closeBingoModal();
+            checkBingoLine();
+        }
+
+        function fillCenterCell() {
+            showToast("中間格為天父預備的滿滿恩典！🙌");
+        }
+
+        function resetBingo() {
+            for (let i = 0; i < 9; i++) {
+                if (i === 4) continue; // center cell
+                cellData[i].name = "";
+                const cell = document.getElementById(`cell-${i}`);
+                const nameSpan = document.getElementById(`name-${i}`);
+                nameSpan.innerText = "";
+                nameSpan.classList.add('hidden');
+                cell.className = "aspect-square bg-white/70 border border-white rounded-2xl p-2.5 flex flex-col justify-between items-center text-center cursor-pointer hover:bg-white/90 active:scale-95 transition-all shadow-sm";
+            }
+            showToast("九宮格已被重設！");
+        }
+
+        function checkBingoLine() {
+            const winPatterns = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8], // 橫
+                [0, 3, 6], [1, 4, 7], [2, 5, 8], // 豎
+                [0, 4, 8], [2, 4, 6]             // 斜
+            ];
+
+            let lines = 0;
+            winPatterns.forEach(pattern => {
+                const completed = pattern.every(idx => cellData[idx].name && cellData[idx].name !== "");
+                if (completed) {
+                    lines++;
+                }
+            });
+
+            if (lines > 0) {
+                showToast(`🎉 恭喜完成 ${lines} 條連線！大喊：哈利路亞！ 🙌`);
+            }
+        }
 
         let toastTimeout;
         function showToast(message) {
@@ -498,10 +691,12 @@
             msgSpan.innerText = message;
             
             container.classList.remove('hidden');
+            container.classList.add('animate-fadeIn');
             
             clearTimeout(toastTimeout);
             toastTimeout = setTimeout(() => {
                 container.classList.add('hidden');
+                container.classList.remove('animate-fadeIn');
             }, 3000);
         }
 
@@ -511,11 +706,13 @@
             if (checkbox.checked) {
                 span.classList.add('line-through', 'text-slate-400');
                 span.classList.remove('text-slate-700');
-                label.classList.add('bg-slate-50/70', 'border-slate-200/40');
+                label.classList.add('bg-white/90', 'border-church-200', 'shadow-inner');
+                label.classList.remove('bg-white/50', 'border-white', 'hover:bg-white/80', 'shadow-sm');
             } else {
                 span.classList.remove('line-through', 'text-slate-400');
                 span.classList.add('text-slate-700');
-                label.classList.remove('bg-slate-50/70', 'border-slate-200/40');
+                label.classList.remove('bg-white/90', 'border-church-200', 'shadow-inner');
+                label.classList.add('bg-white/50', 'border-white', 'hover:bg-white/80', 'shadow-sm');
             }
         }
     </script>
