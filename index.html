@@ -370,7 +370,7 @@
                 </label>
                 <label class="flex items-center space-x-3 p-3.5 rounded-2xl border border-slate-100/80 hover:bg-slate-50 transition-all cursor-pointer">
                     <input type="checkbox" onchange="toggleCheck(this)" class="w-5 h-5 rounded text-church-600 focus:ring-church-500 border-slate-300">
-                    <span class="text-sm text-slate-700 font-bold">遮陽防曬用具或摺疊傘（宜蘭必備）☂️</span>
+                    <span class="text-sm text-slate-700 font-bold">遮陽防曬用具或摺疊傘、輕便雨衣☂️</span>
                 </label>
                 <label class="flex items-center space-x-3 p-3.5 rounded-2xl border border-slate-100/80 hover:bg-slate-50 transition-all cursor-pointer">
                     <input type="checkbox" onchange="toggleCheck(this)" class="w-5 h-5 rounded text-church-600 focus:ring-church-500 border-slate-300">
@@ -489,97 +489,7 @@
             showToast(`已切換至 ${busType === 'all' ? '全體行程' : busType === '12' ? '1、2車行程' : '3車行程'}`);
         }
 
-        // 3. 數位九宮格邏輯
-        let currentEditingCell = null;
-        const cellData = {
-            0: { desc: "今天穿著運動鞋或布鞋的人", name: "" },
-            1: { desc: "今天早上 6:30 前即起床準備出發的人", name: "" },
-            2: { desc: "隨身攜帶實體紙本聖經的同工/肢體", name: "" },
-            3: { desc: "中文姓名裡面有「木」或「艸」部首的人", name: "" },
-            4: { desc: "恩典必得一格", name: "已得恩典" }, // Center Cell
-            5: { desc: "手機目前電量在 80% 以上的人", name: "" },
-            6: { desc: "今天背包有帶防蚊液或防曬乳的人", name: "" },
-            7: { desc: "能當場背出「約翰福音三章十六節」的人", name: "" },
-            8: { desc: "與你今天搭乘「不同車次」的弟兄姊妹", name: "" },
-        };
-
-        function openBingoModal(index) {
-            currentEditingCell = index;
-            const data = cellData[index];
-            document.getElementById('modal-cell-title').innerText = `特徵大搜查 #${index + 1}`;
-            document.getElementById('modal-cell-desc').innerText = data.desc;
-            document.getElementById('sign-name-input').value = data.name;
-            
-            const modal = document.getElementById('bingo-modal');
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                document.getElementById('sign-name-input').focus();
-            }, 100);
-        }
-
-        function closeBingoModal() {
-            document.getElementById('bingo-modal').classList.add('hidden');
-            currentEditingCell = null;
-        }
-
-        function saveBingoCell() {
-            if (currentEditingCell === null) return;
-            const inputVal = document.getElementById('sign-name-input').value.trim();
-            const cell = document.getElementById(`cell-${currentEditingCell}`);
-            const nameSpan = document.getElementById(`name-${currentEditingCell}`);
-            
-            cellData[currentEditingCell].name = inputVal;
-
-            if (inputVal !== "") {
-                nameSpan.innerText = inputVal;
-                nameSpan.classList.remove('hidden');
-                cell.className = "aspect-square bg-church-50 border-2 border-church-500 rounded-2xl p-2.5 flex flex-col justify-between items-center text-center cursor-pointer active:scale-95 transition-all shadow-sm ring-2 ring-church-100";
-            } else {
-                nameSpan.innerText = "";
-                nameSpan.classList.add('hidden');
-                cell.className = "aspect-square bg-[#fbfbfa] border border-slate-200/60 rounded-2xl p-2.5 flex flex-col justify-between items-center text-center cursor-pointer hover:bg-church-50 active:scale-95 transition-all";
-            }
-
-            closeBingoModal();
-            checkBingoLine();
-        }
-
-        function fillCenterCell() {
-            showToast("中間格為天父預備的滿滿恩典！🙌");
-        }
-
-        function resetBingo() {
-            for (let i = 0; i < 9; i++) {
-                if (i === 4) continue; // center cell
-                cellData[i].name = "";
-                const cell = document.getElementById(`cell-${i}`);
-                const nameSpan = document.getElementById(`name-${i}`);
-                nameSpan.innerText = "";
-                nameSpan.classList.add('hidden');
-                cell.className = "aspect-square bg-[#fbfbfa] border border-slate-200/60 rounded-2xl p-2.5 flex flex-col justify-between items-center text-center cursor-pointer hover:bg-church-50 active:scale-95 transition-all";
-            }
-            showToast("九宮格已被重設！");
-        }
-
-        function checkBingoLine() {
-            const winPatterns = [
-                [0, 1, 2], [3, 4, 5], [6, 7, 8], // 橫
-                [0, 3, 6], [1, 4, 7], [2, 5, 8], // 豎
-                [0, 4, 8], [2, 4, 6]             // 斜
-            ];
-
-            let lines = 0;
-            winPatterns.forEach(pattern => {
-                const completed = pattern.every(idx => cellData[idx].name && cellData[idx].name !== "");
-                if (completed) {
-                    lines++;
-                }
-            });
-
-            if (lines > 0) {
-                showToast(`🎉 恭喜完成 ${lines} 條連線！大喊：哈利路亞！ 🙌`);
-            }
-        }
+        
 
         let toastTimeout;
         function showToast(message) {
