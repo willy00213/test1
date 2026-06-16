@@ -315,7 +315,7 @@
                 <div class="timeline-item bus-all relative bg-amber-50/60 p-4 rounded-2xl border border-amber-100" data-bus="all">
                     <div class="absolute -left-[35px] top-5 w-3.5 h-3.5 rounded-full border-2 border-white bg-accent-500 shadow-sm"></div>
                     <div class="text-base font-black text-accent-600">10:20 - 10:35 <span class="font-bold text-accent-500 ml-1.5 text-sm">破冰遊戲：九宮格賓果 🎯</span></div>
-                    <p class="text-slate-700 text-sm mt-2 leading-relaxed font-bold">互動時間！請利用下方「數位九宮格」尋找特徵相符的肢體，直接在手機點選輸入名字連線！</p>
+                    <p class="text-slate-700 text-sm mt-2 leading-relaxed font-bold">互動時間！</p>
                 </div>
 
                 <!-- 10:35 詩歌敬拜 -->
@@ -400,64 +400,7 @@
             </div>
         </div>
 
-        <!-- 破冰互動：數位九宮格 -->
-        <div class="glass-card rounded-[2rem] p-7 animate-fadeIn" style="animation-delay: 250ms;" id="bingo-section">
-            <h2 class="text-lg font-black text-church-800 flex items-center mb-1.5">
-                <span class="mr-2 text-xl">🎯</span> 破冰特質大搜查
-            </h2>
-            <p class="text-sm text-slate-500 font-medium mb-6">點擊方格輸入符合特徵的弟兄姊妹名字，集滿連線大喊哈利路亞！</p>
-
-            <!-- 3x3 網格 -->
-            <div class="grid grid-cols-3 gap-3">
-                <div onclick="openBingoModal(0)" id="cell-0" class="aspect-square bg-white/70 border border-white rounded-2xl p-2.5 flex flex-col justify-between items-center text-center cursor-pointer hover:bg-white/90 active:scale-95 transition-all shadow-sm">
-                    <span class="text-xs text-slate-600 font-bold leading-normal my-auto">穿運動鞋<br>或布鞋</span>
-                    <span class="text-[13px] text-church-700 font-black hidden bg-white shadow-sm px-2 py-1 rounded-full border border-church-100/50 w-full truncate" id="name-0"></span>
-                </div>
-                <div onclick="openBingoModal(1)" id="cell-1" class="aspect-square bg-white/70 border border-white rounded-2xl p-2.5 flex flex-col justify-between items-center text-center cursor-pointer hover:bg-white/90 active:scale-95 transition-all shadow-sm">
-                    <span class="text-xs text-slate-600 font-bold leading-normal my-auto">早上 6:30前<br>提早起床</span>
-                    <span class="text-[13px] text-church-700 font-black hidden bg-white shadow-sm px-2 py-1 rounded-full border border-church-100/50 w-full truncate" id="name-1"></span>
-                </div>
-                <div onclick="openBingoModal(2)" id="cell-2" class="aspect-square bg-white/70 border border-white rounded-2xl p-2.5 flex flex-col justify-between items-center text-center cursor-pointer hover:bg-white/90 active:scale-95 transition-all shadow-sm">
-                    <span class="text-xs text-slate-600 font-bold leading-normal my-auto">攜帶實體<br>紙本聖經</span>
-                    <span class="text-[13px] text-church-700 font-black hidden bg-white shadow-sm px-2 py-1 rounded-full border border-church-100/50 w-full truncate" id="name-2"></span>
-                </div>
-
-                <div onclick="openBingoModal(3)" id="cell-3" class="aspect-square bg-white/70 border border-white rounded-2xl p-2.5 flex flex-col justify-between items-center text-center cursor-pointer hover:bg-white/90 active:scale-95 transition-all shadow-sm">
-                    <span class="text-xs text-slate-600 font-bold leading-normal my-auto">姓名裡有<br>「木」或「艸」</span>
-                    <span class="text-[13px] text-church-700 font-black hidden bg-white shadow-sm px-2 py-1 rounded-full border border-church-100/50 w-full truncate" id="name-3"></span>
-                </div>
-                <!-- 願神祝福 (Center) -->
-                <div onclick="fillCenterCell()" id="cell-4" class="aspect-square bg-gradient-to-br from-accent-400 to-accent-600 text-white rounded-2xl p-2.5 flex flex-col justify-center items-center text-center cursor-pointer active:scale-95 transition-all shadow-md border border-accent-300">
-                    <span class="text-sm font-black tracking-wide drop-shadow-md">恩典<br>滿滿 ✨</span>
-                    <span class="text-xs font-black opacity-90 mt-1" id="name-4">已得恩典</span>
-                </div>
-                <div onclick="openBingoModal(5)" id="cell-5" class="aspect-square bg-white/70 border border-white rounded-2xl p-2.5 flex flex-col justify-between items-center text-center cursor-pointer hover:bg-white/90 active:scale-95 transition-all shadow-sm">
-                    <span class="text-xs text-slate-600 font-bold leading-normal my-auto">手機電量<br>在 80% 以上</span>
-                    <span class="text-[13px] text-church-700 font-black hidden bg-white shadow-sm px-2 py-1 rounded-full border border-church-100/50 w-full truncate" id="name-5"></span>
-                </div>
-
-                <div onclick="openBingoModal(6)" id="cell-6" class="aspect-square bg-white/70 border border-white rounded-2xl p-2.5 flex flex-col justify-between items-center text-center cursor-pointer hover:bg-white/90 active:scale-95 transition-all shadow-sm">
-                    <span class="text-xs text-slate-600 font-bold leading-normal my-auto">有攜帶<br>防蚊液/防曬</span>
-                    <span class="text-[13px] text-church-700 font-black hidden bg-white shadow-sm px-2 py-1 rounded-full border border-church-100/50 w-full truncate" id="name-6"></span>
-                </div>
-                <div onclick="openBingoModal(7)" id="cell-7" class="aspect-square bg-white/70 border border-white rounded-2xl p-2.5 flex flex-col justify-between items-center text-center cursor-pointer hover:bg-white/90 active:scale-95 transition-all shadow-sm">
-                    <span class="text-xs text-slate-600 font-bold leading-normal my-auto">能背出約翰福音<br>三章十六節</span>
-                    <span class="text-[13px] text-church-700 font-black hidden bg-white shadow-sm px-2 py-1 rounded-full border border-church-100/50 w-full truncate" id="name-7"></span>
-                </div>
-                <div onclick="openBingoModal(8)" id="cell-8" class="aspect-square bg-white/70 border border-white rounded-2xl p-2.5 flex flex-col justify-between items-center text-center cursor-pointer hover:bg-white/90 active:scale-95 transition-all shadow-sm">
-                    <span class="text-xs text-slate-600 font-bold leading-normal my-auto">與你搭乘<br>「不同車次」</span>
-                    <span class="text-[13px] text-church-700 font-black hidden bg-white shadow-sm px-2 py-1 rounded-full border border-church-100/50 w-full truncate" id="name-8"></span>
-                </div>
-            </div>
-
-            <!-- 清除九宮格進度 -->
-            <div class="mt-5 flex justify-end">
-                <button onclick="resetBingo()" class="text-sm text-slate-400 hover:text-rose-500 flex items-center transition-all font-bold px-3 py-1.5 rounded-lg hover:bg-rose-50">
-                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                    清除重來
-                </button>
-            </div>
-        </div>
+    
 
         <!-- 行前必備行李打包清單 Card -->
         <div class="glass-card rounded-[2rem] p-7 animate-fadeIn" style="animation-delay: 300ms;">
@@ -592,98 +535,7 @@
             showToast(`已切換至 ${busType === 'all' ? '全體行程' : busType === '12' ? '1、2車行程' : '3車行程'}`);
         }
 
-        // 3. 數位九宮格邏輯
-        let currentEditingCell = null;
-        const cellData = {
-            0: { desc: "今天穿著運動鞋或布鞋的人", name: "" },
-            1: { desc: "今天早上 6:30 前即起床準備出發的人", name: "" },
-            2: { desc: "隨身攜帶實體紙本聖經的同工/肢體", name: "" },
-            3: { desc: "中文姓名裡面有「木」或「艸」部首的人", name: "" },
-            4: { desc: "恩典必得一格", name: "已得恩典" }, // Center Cell
-            5: { desc: "手機目前電量在 80% 以上的人", name: "" },
-            6: { desc: "今天背包有帶防蚊液或防曬乳的人", name: "" },
-            7: { desc: "能當場背出「約翰福音三章十六節」的人", name: "" },
-            8: { desc: "與你今天搭乘「不同車次」的弟兄姊妹", name: "" },
-        };
-
-        function openBingoModal(index) {
-            currentEditingCell = index;
-            const data = cellData[index];
-            document.getElementById('modal-cell-title').innerText = `特徵大搜查 #${index + 1}`;
-            document.getElementById('modal-cell-desc').innerText = data.desc;
-            document.getElementById('sign-name-input').value = data.name;
-            
-            const modal = document.getElementById('bingo-modal');
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                document.getElementById('sign-name-input').focus();
-            }, 100);
-        }
-
-        function closeBingoModal() {
-            document.getElementById('bingo-modal').classList.add('hidden');
-            currentEditingCell = null;
-        }
-
-        function saveBingoCell() {
-            if (currentEditingCell === null) return;
-            const inputVal = document.getElementById('sign-name-input').value.trim();
-            const cell = document.getElementById(`cell-${currentEditingCell}`);
-            const nameSpan = document.getElementById(`name-${currentEditingCell}`);
-            
-            cellData[currentEditingCell].name = inputVal;
-
-            if (inputVal !== "") {
-                nameSpan.innerText = inputVal;
-                nameSpan.classList.remove('hidden');
-                cell.className = "aspect-square bg-church-50 border-2 border-church-400 rounded-2xl p-2.5 flex flex-col justify-between items-center text-center cursor-pointer active:scale-95 transition-all shadow-md ring-4 ring-church-500/10";
-            } else {
-                nameSpan.innerText = "";
-                nameSpan.classList.add('hidden');
-                cell.className = "aspect-square bg-white/70 border border-white rounded-2xl p-2.5 flex flex-col justify-between items-center text-center cursor-pointer hover:bg-white/90 active:scale-95 transition-all shadow-sm";
-            }
-
-            closeBingoModal();
-            checkBingoLine();
-        }
-
-        function fillCenterCell() {
-            showToast("中間格為天父預備的滿滿恩典！🙌");
-        }
-
-        function resetBingo() {
-            for (let i = 0; i < 9; i++) {
-                if (i === 4) continue; // center cell
-                cellData[i].name = "";
-                const cell = document.getElementById(`cell-${i}`);
-                const nameSpan = document.getElementById(`name-${i}`);
-                nameSpan.innerText = "";
-                nameSpan.classList.add('hidden');
-                cell.className = "aspect-square bg-white/70 border border-white rounded-2xl p-2.5 flex flex-col justify-between items-center text-center cursor-pointer hover:bg-white/90 active:scale-95 transition-all shadow-sm";
-            }
-            showToast("九宮格已被重設！");
-        }
-
-        function checkBingoLine() {
-            const winPatterns = [
-                [0, 1, 2], [3, 4, 5], [6, 7, 8], // 橫
-                [0, 3, 6], [1, 4, 7], [2, 5, 8], // 豎
-                [0, 4, 8], [2, 4, 6]             // 斜
-            ];
-
-            let lines = 0;
-            winPatterns.forEach(pattern => {
-                const completed = pattern.every(idx => cellData[idx].name && cellData[idx].name !== "");
-                if (completed) {
-                    lines++;
-                }
-            });
-
-            if (lines > 0) {
-                showToast(`🎉 恭喜完成 ${lines} 條連線！大喊：哈利路亞！ 🙌`);
-            }
-        }
-
+       
         let toastTimeout;
         function showToast(message) {
             const container = document.getElementById('toast-container');
