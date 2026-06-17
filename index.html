@@ -52,7 +52,7 @@
             <div class="absolute -right-8 -bottom-8 opacity-5 text-church-500 pointer-events-none">
                 <svg class="w-32 h-32" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.53c-.26-.81-1-1.4-1.9-1.4h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
             </div>
-            <h1 class="text-xl font-black text-church-800 tracking-tight mb-1">恩光基督教會 退休會 -頭城農場 ‧ 喜樂同行 🌿</h1>
+            <h1 class="text-xl font-black text-church-800 tracking-tight mb-1">恩光基督教會 退休會 - 頭城農場 ‧ 喜樂同行 🌿</h1>
             <p class="text-slate-400 text-xs mb-4 font-medium">出發日期：民國 115 年 7 月 11 日 (星期六)</p>
             
             <div class="bg-gradient-to-br from-church-50 to-emerald-50/40 rounded-2xl p-4 border border-church-100 flex justify-around items-center text-center">
@@ -66,7 +66,7 @@
             </div>
         </div>
 
-        <!-- 導覽圖 Card (已移除會導致阻擋的參數) -->
+        <!-- 導覽圖 Card -->
         <div class="bg-white rounded-3xl p-6 card-shadow border border-church-100/40 animate-fadeIn" style="animation-delay: 100ms;">
             <div class="flex items-center space-x-3 mb-4 pb-3 border-b border-slate-100">
                 <span class="text-xl">🗺️</span>
@@ -75,7 +75,6 @@
                     <p class="text-[10px] text-slate-400 font-medium">點擊圖片可放大檢視動線與總覽</p>
                 </div>
             </div>
-            <!-- 使用最乾淨的 GitHub 連結路徑 -->
             <div class="rounded-xl overflow-hidden border border-slate-100 shadow-sm bg-slate-50 cursor-zoom-in relative group" onclick="openLightbox('https://raw.githubusercontent.com/willy00213/0711/main/%E6%95%99%E6%9C%83%E8%BE%B2%E5%A0%B4%E4%B8%80%E6%97%A5%E9%81%8A%E8%A1%8C%E7%A8%8B%E8%A1%A8.png')">
                 <img src="https://raw.githubusercontent.com/willy00213/0711/main/%E6%95%99%E6%9C%83%E8%BE%B2%E5%A0%B4%E4%B8%80%E6%97%A5%E9%81%8A%E8%A1%8C%E7%A8%8B%E8%A1%A8.png" alt="導覽手冊" onerror="this.src='https://placehold.co/800x400/e3ece6/2e6f40?text=Map+Loading...'" class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-500">
                 <div class="absolute inset-0 bg-black/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -90,7 +89,7 @@
                 <span class="text-lg">🚌</span>
                 <div>
                     <h2 class="text-base font-black text-church-800">車次與車長配置</h2>
-                    <p class="text-[10px] text-slate-400 font-medium">請對照所屬車次，於出發前15分鐘抵達報到</p>
+                    <p class="text-[10px] text-slate-400 font-medium">請對照所屬車次，於出發前20分鐘抵達報到</p>
                 </div>
             </div>
             <div class="space-y-4" id="bus-info-container">
@@ -138,54 +137,132 @@
                 </div>
             </div>
 
-            <div class="relative pl-6 border-l border-slate-100 space-y-6" id="timeline">
+            <!-- 時間軸容器 -->
+            <div class="relative pl-7 border-l-2 border-slate-100 space-y-7 transition-all" id="timeline">
+                
+                <!-- 07:30 3車 -->
                 <div class="timeline-item bus-3 relative" data-bus="3">
-                    <div class="absolute -left-[31.5px] top-1.5 w-2.5 h-2.5 rounded-full border-2 border-white bg-blue-500 ring-4 ring-blue-50"></div>
-                    <span class="inline-block bg-blue-50 text-blue-600 text-[10px] font-bold px-2 py-0.5 rounded-full mb-1">3車專屬</span>
-                    <div class="text-xs font-black text-slate-900">07:30 <span class="font-normal text-slate-500 ml-1">3車弟兄姊妹請於 07:20 前報到，竹圍捷運站出發中途將停靠石碇休息站。</span></div>
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-blue-500 ring-4 ring-blue-50"></div>
+                    <span class="inline-block bg-blue-50 text-blue-600 text-xs font-bold px-2.5 py-1 rounded-full mb-1">3車專屬 (早鳥)</span>
+                    <div class="text-sm font-black text-slate-900">07:30 <span class="font-normal text-slate-500 ml-1">竹圍捷運站出發</span></div>
+                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">3車弟兄姊妹請於 07:20 前報到。中途將停靠石碇休息站小憩。</p>
                 </div>
+
+                <!-- 08:00 12車 -->
                 <div class="timeline-item bus-12 relative" data-bus="12">
-                    <div class="absolute -left-[31.5px] top-1.5 w-2.5 h-2.5 rounded-full border-2 border-white bg-emerald-500 ring-4 ring-emerald-50"></div>
-                    <span class="inline-block bg-emerald-50 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full mb-1">1、2車專屬</span>
-                    <div class="text-xs font-black text-slate-900">08:00 <span class="font-normal text-slate-500 ml-1">1、2車弟兄姊妹請於 07:50 前報到，竹圍捷運站出發 (直達農場)</span></div>
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-emerald-500 ring-4 ring-emerald-50"></div>
+                    <span class="inline-block bg-emerald-50 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full mb-1">1、2車專屬</span>
+                    <div class="text-sm font-black text-slate-900">08:00 <span class="font-normal text-slate-500 ml-1">竹圍捷運站出發</span></div>
+                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">1、2車弟兄姊妹請於 07:50 前報到。本車次為直達頭城農場。</p>
                 </div>
+
+                <!-- 09:30 全體會合 -->
                 <div class="timeline-item bus-all relative" data-bus="all">
-                    <div class="absolute -left-[31.5px] top-1.5 w-2.5 h-2.5 rounded-full border-2 border-white bg-accent-500 ring-4 ring-amber-50"></div>
-                    <div class="text-xs font-black text-slate-900">09:30 - 10:00 <span class="font-normal text-slate-500 ml-1">三台車會師！引導全體上洗手間、清點人數與集合準備拍照。 </span></div>
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-accent-500 ring-4 ring-amber-50"></div>
+                    <div class="text-sm font-black text-slate-900">09:30 - 10:00 <span class="font-normal text-slate-500 ml-1">全體會合與休息時間 🍡</span></div>
+                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">三台車會師！引導全體上洗手間、清點人數與集合準備拍照。</p>
                 </div>
-                <div class="timeline-item bus-all relative bg-amber-50/50 p-3 rounded-2xl border border-amber-100" data-bus="all">
-                    <span class="inline-block bg-emerald-50 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full mb-1">【全體聚會正式開始】</span>
-                    <div class="absolute -left-[31.5px] top-4 w-2.5 h-2.5 rounded-full border-2 border-white bg-accent-500 ring-4 ring-amber-100"></div>
-                    <div class="text-xs font-black text-accent-600">10:00 - 10:15 <span class="font-bold text-accent-500 ml-1">趁著精神與妝容最佳狀態，於戶外美景拍下大合照！ 📸</span></div>
-                </div>
+
+                <!-- 10:00 戶外大合照 -->
                 <div class="timeline-item bus-all relative" data-bus="all">
-                    <div class="absolute -left-[31.5px] top-1.5 w-2.5 h-2.5 rounded-full border-2 border-white bg-accent-500 ring-4 ring-amber-50"></div>
-                    <div class="text-xs font-black text-slate-900">10:15 - 10:20 <span class="font-normal text-slate-500 ml-1">有序進入會議室就座，沉靜思緒、安靜心靈，預備進入聚會。</span></div>
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-accent-500 ring-4 ring-amber-50"></div>
+                    <div class="text-sm font-black text-slate-900">10:00 - 10:15 <span class="font-normal text-slate-500 ml-1">全體戶外大合照 📸</span></div>
+                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">【全體聚會正式開始】趁著精神與妝容最佳狀態，於戶外美景拍下大合照！</p>
                 </div>
-                <div class="timeline-item bus-all relative bg-amber-50/50 p-3 rounded-2xl border border-amber-100" data-bus="all">
-                    <div class="absolute -left-[31.5px] top-4 w-2.5 h-2.5 rounded-full border-2 border-white bg-accent-500 ring-4 ring-amber-100"></div>
-                    <div class="text-xs font-black text-accent-600">10:20 - 11:30 <span class="font-bold text-accent-500 ml-1">破冰、敬拜與主日證道 🎵</span></div>
-                </div>
-                <div class="timeline-item bus-all relative bg-emerald-50/50 p-3 rounded-2xl border border-emerald-100" data-bus="all">
-                    <div class="absolute -left-[31.5px] top-4 w-2.5 h-2.5 rounded-full border-2 border-white bg-emerald-500 ring-4 ring-emerald-100"></div>
-                    <div class="text-xs font-black text-emerald-800">11:30 - 13:00 <span class="font-bold text-emerald-700 ml-1">享用鄉土料理 🍱</span></div>
-                </div>
+
+                <!-- 10:15 移動就座 -->
                 <div class="timeline-item bus-all relative" data-bus="all">
-                    <div class="absolute -left-[31.5px] top-1.5 w-2.5 h-2.5 rounded-full border-2 border-white bg-emerald-500 ring-4 ring-emerald-50"></div>
-                    <div class="text-xs font-black text-slate-900">13:00 - 15:30 <span class="font-normal text-slate-500 ml-1">生態導覽、盆栽DIY與湖岸物語 🌱</span></div>
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-slate-400 ring-4 ring-slate-50"></div>
+                    <div class="text-sm font-black text-slate-900">10:15 - 10:20 <span class="font-normal text-slate-500 ml-1">移動就座與預備心</span></div>
+                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">有序進入會議室就座，沉靜思緒、安靜心靈，預備進入聚會。</p>
                 </div>
+
+                <!-- 10:20 破冰九宮格 -->
+                <div class="timeline-item bus-all relative bg-amber-50/50 p-4 rounded-2xl border border-amber-100" data-bus="all">
+                    <div class="absolute -left-[35px] top-4.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-accent-500 ring-4 ring-amber-100"></div>
+                    <div class="text-sm font-black text-accent-700">10:20 - 10:35 <span class="font-bold text-accent-600 ml-1">破冰遊戲：九宮格賓果 🎯</span></div>
+                    <p class="text-slate-600 text-xs mt-1.5 leading-relaxed font-medium">姝雯主持！互動時間！</p>
+                </div>
+
+                <!-- 10:35 詩歌敬拜 -->
+                <div class="timeline-item bus-all relative" data-bus="all">
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-accent-500 ring-4 ring-amber-50"></div>
+                    <div class="text-sm font-black text-slate-900">10:35 - 10:50 <span class="font-normal text-slate-500 ml-1">詩歌讚美 🎵</span></div>
+                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">敬拜團安排兩首大能的詩歌，帶領大家開口敬拜讚美，將主權歸與神。</p>
+                </div>
+
+                <!-- 10:50 見證分享 -->
+                <div class="timeline-item bus-all relative" data-bus="all">
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-accent-500 ring-4 ring-amber-50"></div>
+                    <div class="text-sm font-black text-slate-900">10:50 - 11:05 <span class="font-normal text-slate-500 ml-1">主內見證分享 🕊️</span></div>
+                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">聆聽肢體在生活、工作、家庭中實踐信仰，經歷神奇妙恩典的生命印記。</p>
+                </div>
+
+                <!-- 11:05 精華證道 -->
+                <div class="timeline-item bus-all relative" data-bus="all">
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-accent-500 ring-4 ring-amber-50"></div>
+                    <div class="text-sm font-black text-slate-900">11:05 - 11:20 <span class="font-normal text-slate-500 ml-1">精華信息證道 📖</span></div>
+                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">亞鳴牧師帶來主題信息證道，專注核心真理的釋放與實踐。</p>
+                </div>
+
+                <!-- 11:20 回應祝福 -->
+                <div class="timeline-item bus-all relative" data-bus="all">
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-accent-500 ring-4 ring-amber-50"></div>
+                    <div class="text-sm font-black text-slate-900">11:20 - 11:30 <span class="font-normal text-slate-500 ml-1">回應禱告與祝禱 🙏</span></div>
+                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">全體同心合意禱告，並由牧者做結束祝禱，為豐盛的聚會圓滿落幕。</p>
+                </div>
+
+                <!-- 11:30 自助午餐 -->
+                <div class="timeline-item bus-all relative bg-emerald-50/50 p-4 rounded-2xl border border-emerald-100" data-bus="all">
+                    <div class="absolute -left-[35px] top-4.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-emerald-500 ring-4 ring-emerald-100"></div>
+                    <div class="text-sm font-black text-emerald-800">11:30 - 13:00 <span class="font-bold text-emerald-700 ml-1">享用鄉土料理 🍱</span></div>
+                    <p class="text-slate-700 text-xs mt-1.5 leading-relaxed font-medium">在餐廳共同享用豐盛健康的自助式中式午餐（提早用餐，享受愜意時光）。</p>
+                </div>
+
+                <!-- 13:00 生態導覽 -->
+                <div class="timeline-item bus-all relative" data-bus="all">
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-emerald-500 ring-4 ring-emerald-50"></div>
+                    <div class="text-sm font-black text-slate-900">13:00 - 14:00 <span class="font-normal text-slate-500 ml-1">園區生態導覽 🐢</span></div>
+                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">專業解說員帶隊：可愛動物區、農村運動場、認識有機菜園、水稻區導覽。</p>
+                </div>
+
+                <!-- 14:00 盆栽 DIY -->
+                <div class="timeline-item bus-all relative" data-bus="all">
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-emerald-500 ring-4 ring-emerald-50"></div>
+                    <div class="text-sm font-black text-slate-900">14:00 - 15:00 <span class="font-normal text-slate-500 ml-1">希望盆栽 DIY 🌱</span></div>
+                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">親手組合製作充滿生氣的小盆栽，成品附帶盆器，可以直接帶回家照顧。</p>
+                </div>
+
+                <!-- 15:00 湖岸物語 -->
+                <div class="timeline-item bus-all relative" data-bus="all">
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-emerald-500 ring-4 ring-emerald-50"></div>
+                    <div class="text-sm font-black text-slate-900">15:00 - 15:30 <span class="font-normal text-slate-500 ml-1">湖岸物語 (餵魚/大泡泡) 🫧</span></div>
+                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">浪漫湖畔漫步、七彩無敵大泡泡、湖邊餵魚、呼拉圈等放鬆小活動。</p>
+                </div>
+
+                <!-- 15:30 3車回程 -->
                 <div class="timeline-item bus-3 relative" data-bus="3">
-                    <div class="absolute -left-[31.5px] top-1.5 w-2.5 h-2.5 rounded-full border-2 border-white bg-blue-500 ring-4 ring-blue-50"></div>
-                    <div class="text-xs font-black text-slate-900">15:30 <span class="font-normal text-slate-500 ml-1">3車啟程返航 🚌</span></div>
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-blue-500 ring-4 ring-blue-50"></div>
+                    <span class="inline-block bg-blue-50 text-blue-600 text-xs font-bold px-2.5 py-1 rounded-full mb-1">3車專屬</span>
+                    <div class="text-sm font-black text-slate-900">15:30 <span class="font-normal text-slate-500 ml-1">3車啟程返航 🚌</span></div>
+                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">3車提早半小時發車（中途停靠石碇休息站）。3車車長於 15:20 引導集合。</p>
                 </div>
+
+                <!-- 16:00 12車回程 -->
                 <div class="timeline-item bus-12 relative" data-bus="12">
-                    <div class="absolute -left-[31.5px] top-1.5 w-2.5 h-2.5 rounded-full border-2 border-white bg-emerald-500 ring-4 ring-emerald-50"></div>
-                    <div class="text-xs font-black text-slate-900">16:00 <span class="font-normal text-slate-500 ml-1">1、2車啟程返航 🚌</span></div>
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-emerald-500 ring-4 ring-emerald-50"></div>
+                    <span class="inline-block bg-emerald-50 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full mb-1">1、2車專屬</span>
+                    <div class="text-sm font-black text-slate-900">16:00 <span class="font-normal text-slate-500 ml-1">1、2車啟程返航 🚌</span></div>
+                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">1、2車整隊並準時出發直達台北溫暖的家。</p>
                 </div>
+
+                <!-- 17:30 平安抵達 -->
                 <div class="timeline-item bus-all relative" data-bus="all">
-                    <div class="absolute -left-[31.5px] top-1.5 w-2.5 h-2.5 rounded-full border-2 border-white bg-slate-500 ring-4 ring-slate-50"></div>
-                    <div class="text-xs font-black text-slate-900">17:30 左右 <span class="font-normal text-slate-500 ml-1">平安抵達竹圍 🏠</span></div>
+                    <div class="absolute -left-[35px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-slate-500 ring-4 ring-slate-50"></div>
+                    <div class="text-sm font-black text-slate-900">17:30 左右 <span class="font-normal text-slate-500 ml-1">平安抵達竹圍 🏠</span></div>
+                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">帶著滿載的靈命與喜樂返回竹圍，願神保守每一位肢體出入平安！</p>
                 </div>
+
             </div>
         </div>
 
@@ -197,7 +274,7 @@
                     <input type="checkbox" onchange="toggleCheck(this)" class="w-4 h-4 rounded text-church-600 focus:ring-church-500 border-slate-300"><span class="text-xs text-slate-600 font-bold">個人隨身聖經 📖</span>
                 </label>
                 <label class="flex items-center space-x-3 p-3 rounded-2xl border border-slate-100/80 hover:bg-slate-50 transition-all cursor-pointer">
-                    <input type="checkbox" onchange="toggleCheck(this)" class="w-4 h-4 rounded text-church-600 focus:ring-church-500 border-slate-300"><span class="text-xs text-slate-600 font-bold">遮陽防曬或摺疊傘 ☂️</span>
+                    <input type="checkbox" onchange="toggleCheck(this)" class="w-4 h-4 rounded text-church-600 focus:ring-church-500 border-slate-300"><span class="text-xs text-slate-600 font-bold">遮陽防曬用具或、輕便雨衣 ☂️</span>
                 </label>
                 <label class="flex items-center space-x-3 p-3 rounded-2xl border border-slate-100/80 hover:bg-slate-50 transition-all cursor-pointer">
                     <input type="checkbox" onchange="toggleCheck(this)" class="w-4 h-4 rounded text-church-600 focus:ring-church-500 border-slate-300"><span class="text-xs text-slate-600 font-bold">防蚊液或香茅液 🦟</span>
